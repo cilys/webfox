@@ -22,7 +22,7 @@ public class RoomModel extends Model<RoomModel> {
             return true;
         }
         return dao.findFirst(StrUtils.join(
-           "select * from ", SQLParam.ROOM_NAME, " = '", roomName, "'"
+           "select * from ", SQLParam.T_ROOM, " where ", SQLParam.ROOM_NAME, " = '", roomName, "'"
         )) != null;
     }
 

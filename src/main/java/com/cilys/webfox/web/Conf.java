@@ -38,6 +38,7 @@ public class Conf extends JFinalConfig {
         me.add("sys/right", RightController.class);
         me.add("sys/roleRight", RoleRightController.class);
         me.add("sys/userRole", UserRoleController.class);
+        me.add("room", RoomController.class);
     }
 
     @Override
@@ -68,6 +69,8 @@ public class Conf extends JFinalConfig {
 //                SQLParam.USER_ID_1 + "," + SQLParam.USER_ID_2, FriendModel.class);
 
         arp.addMapping(SQLParam.T_SYS_MENU, SQLParam.SYS_MENU_ID, SysMenuModel.class);
+
+        arp.addMapping(SQLParam.T_ROOM, SQLParam.ROOM_ID, RoomModel.class);
     }
 
     @Override

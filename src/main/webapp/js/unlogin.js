@@ -67,6 +67,10 @@ function saveCookie(token, userId){
 	window.localStorage.setItem("userId", userId);
 }
 
+function getUserId(){
+	return window.localStorage.getItem("userId");
+}
+
 function saveLoginInfo(userName, pwd){
 	window.localStorage.setItem("userName", userName);
 	window.localStorage.setItem("pwd", pwd);
