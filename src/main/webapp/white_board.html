@@ -1,0 +1,173 @@
+<!--<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div style="border: #0C0C0C solid 1px; width: 600px; height: 600px;">
+			<canvas id="canvas_white_board" width="600" height="600"></canvas>
+		</div>
+	</body>
+	
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas_white_board");
+		var ctx = canvas.getContext("2d");
+		
+		canvas.onmouseup = function(event){
+			var x = event.x;
+			var y = event.y;
+			
+			ctx.beginPath();
+			ctx.arc(x, y, 100, 0, Math.PI * 2, true);
+			ctx.stroke();
+			
+			ctx.closePath();
+		}
+	</script>
+</html>-->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div style="border: #0C0C0C solid 1px; width: 600px; height: 600px;">
+			<canvas id="canvas_white_board" width="600" height="600"></canvas>
+		</div>
+		
+		<button type="button" id="btn_clear_last">清除上一个</button>
+		<br />
+		<input id="input_file" type="file" accept="text/plain" onchange="openFile(event)">读文件</button>
+		<div id="output"></div>
+		
+		<br />
+		<br />
+		<a href="" download="canvas.png" id="save_href">下载图片</a>
+	</body>
+	
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas_white_board");
+		var ctx = canvas.getContext("2d");
+//		ctx.translate(0.5, 0.5)
+
+		var attr_line = [];
+		
+		var startX = 0;
+		var startY = 0;
+		
+		var obj;
+		
+		canvas.onmousedown = function(event){
+			startX = event.x;
+			startY = event.y;
+			
+			ctx.beginPath();
+			ctx.arc(startX, startY, 1, 0, Math.PI * 2, true);
+			ctx.stroke();
+			ctx.fill()
+			ctx.closePath()
+			
+			
+			obj = new Object();
+			obj.startX = startX
+			obj.startY = startY
+		}
+		
+		var endX = 0;
+		var endY = 0;
+		canvas.onmouseup = function(event){
+			endX = event.x;
+			endY = event.y;
+			
+			ctx.beginPath();
+			ctx.moveTo(startX, startY)
+			ctx.lineTo(endX, endY);
+			
+			ctx.stroke();
+			ctx.fill();
+			ctx.closePath();
+			
+			
+			ctx.beginPath();
+			ctx.arc(endX, endY, 1, 0, Math.PI * 2, true);
+			ctx.stroke();
+			ctx.fill()
+			ctx.closePath()
+			
+			startX = 0;
+			startY = 0;
+			
+			obj.endX = endX;
+			obj.endY = endY;
+			
+			console.log("push---")
+			console.log(obj)
+			attr_line.push(obj)
+			console.log(attr_line)
+		}
+		
+		var btn_clear_last = document.getElementById("btn_clear_last");
+		btn_clear_last.onclick = function(){
+			var pop = attr_line.pop();
+			console.log(pop)
+			console.log(attr_line)
+			
+			ctx.beginPath();
+			ctx.clearRect(0, 0, 600, 600);
+			ctx.closePath();
+			
+			for(var i = 0; i < attr_line.length; i++){
+				var startX = attr_line[i].startX;
+				var startY = attr_line[i].startY;
+				var endX = attr_line[i].endX;
+				var endY = attr_line[i].endY;
+				
+				ctx.beginPath();
+				ctx.arc(startX, startY, 1, 0, Math.PI * 2, true);
+				ctx.stroke();
+				ctx.fill()
+				ctx.closePath()
+				
+				ctx.beginPath();
+				ctx.moveTo(startX, startY)
+				ctx.lineTo(endX, endY);
+				
+				ctx.stroke();
+				ctx.fill();
+				ctx.closePath();
+				
+				
+				ctx.beginPath();
+				ctx.arc(endX, endY, 1, 0, Math.PI * 2, true);
+				ctx.stroke();
+				ctx.fill()
+				ctx.closePath()
+			}
+			
+		}
+		
+		var div_output = document.getElementById("output");
+		var input_file = document.getElementById("input_file");
+		function openFile(event){
+			var input = event.target;
+			console.log('input = ' + input);
+			var reader = new FileReader();
+			reader.onload = function(){
+				if(reader.result){
+					div_output.innerHTML = reader.result;
+					input_file.outerHTML = input_file.outerHTML
+				}
+			}
+			reader.readAsText(input.files[0]);
+		}
+		
+		var save_href = document.getElementById("save_href")
+		save_href.onclick = function(){
+			var tempSrc = canvas.toDataURL("image/png");
+			save_href.href = tempSrc;
+		}
+	</script>
+</html>
