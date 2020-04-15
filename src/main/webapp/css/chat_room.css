@@ -1,7 +1,7 @@
 .div_base {
 	width: 902px;
 	height: 600px;
-	margin: 30px auto;
+	/*margin: 30px auto;*/
 	border: 1px solid #CCCCCC;	
 }
 
@@ -20,8 +20,9 @@
 
 .div_left_center{
 	width: 600px; 
-	height: 530px; 
-	border-bottom: 1px solid #CCCCCC;
+	/*height: 530px; */
+	height: 570px; 
+	/*border-bottom: 1px solid #CCCCCC;*/
 }
 
 .div_right_base{
@@ -48,6 +49,6 @@
 
 .div_right_center{
 	width: 300px;
-	height: 430px;
-	border-bottom: 1px solid #CCCCCC;
+	height: 392px;
+	/*border-bottom: 1px solid #CCCCCC;*/
 }

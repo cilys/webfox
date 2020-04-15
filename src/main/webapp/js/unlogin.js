@@ -56,7 +56,8 @@ function clearCookie(){
 	
 	window.localStorage.removeItem("token");
 	window.localStorage.removeItem("userId");
-
+	window.localStorage.removeItem("userIdentify");
+	window.localStorage.removeItem("realName");
 }
 
 function saveCookie(token, userId){
@@ -65,6 +66,14 @@ function saveCookie(token, userId){
 
 	window.localStorage.setItem("token", token);
 	window.localStorage.setItem("userId", userId);
+}
+
+function saveUserIdentify(userIdentify){
+	window.localStorage.setItem("userIdentify", userIdentify);
+}
+
+function getUserIdentify(){
+	return window.localStorage.getItem("userIdentify");
 }
 
 function getUserId(){
@@ -82,4 +91,13 @@ function getUserName(){
 function getPwd(){
 	var pwd = window.localStorage.getItem("pwd");
 	return (pwd == null || pwd == "") ? "" : pwd;
+}
+
+function getRealName(){
+	var realName = window.localStorage.getItem("realName");
+	return (realName == null || realName == "") ? getUserName() : realName;
+}
+
+function getName(){
+	return getRealName() + "(" + getUserName() + ")"
 }

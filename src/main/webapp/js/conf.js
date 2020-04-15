@@ -5,6 +5,10 @@ function getHost(){
 //	return "http://xsxp.v228.10000net.cn/dmge888"
 }
 
+function getWebSocketHost(){
+	return "ws://localhost:8080/webfox/";
+}
+
 function log(str){
 	console.log(str);
 }

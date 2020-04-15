@@ -69,7 +69,4 @@ public class RoomModel extends Model<RoomModel> {
         }
         return dao.deleteById(roomId);
     }
-
-
-
 }
