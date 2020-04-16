@@ -1,4 +1,14 @@
 $(document).ready(function(){
+	if(checkHtml()){
+		return;
+	}
+	
+	$("#a_user").text(getRealName())
+	$("#a_logout").on("click", function(){
+		clearCookie()
+		href("./login.html");
+		window.location.reload()
+	})
 	
 	var startAllAppoint = 0;	//开始页数
 	var currentPage = 1;	//当前页数

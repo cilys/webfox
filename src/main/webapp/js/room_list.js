@@ -1,4 +1,7 @@
 $(document).ready(function(){
+	if(checkHtml()){
+		return;
+	}
 	
 	var startAllAppoint = 0;	//开始页数
 	var currentPage = 1;	//当前页数

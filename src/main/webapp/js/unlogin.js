@@ -22,6 +22,56 @@ function login(res){
 }
 
 function userUnLogin(){
+	return loginInfoEmpty();
+}
+
+function checkHtml(){
+	var currentHtml = window.location.href;
+	log("currentHtml = " + currentHtml)
+	if(userUnLogin()){
+		pHref("./login.html");
+		href("./login.html");
+		window.location.reload()
+		return true;
+	}
+	
+	var userIdentify = getUserIdentify();
+	if(userIdentify == 0){
+		if(currentHtml.indexOf("index.html") > -1){
+			return false;
+		}else{
+			var pHtml = window.parent.location.href;
+			log("pHtml = " + pHtml);
+			if(pHtml.indexOf("index.html") > -1){
+				return false;
+			}
+			href("./index.html");
+		}
+		
+		return true;
+	}
+	
+	if(userIdentify == 1){
+		if(currentHtml.indexOf("room_list_for_user.html") > -1){
+			return false;
+		}
+		if(currentHtml.indexOf("chat_room_teacher.html" > - 1)){
+			return false;
+		}
+		href("./room_list_for_user.html");
+		return true;
+	}
+	
+	if(userIdentify == 2){
+		if(currentHtml.indexOf("room_list_for_user.html") > -1){
+			return false;
+		}
+		if(currentHtml.indexOf("chat_room_student.html") > -1){
+			return false;
+		}
+		href("./room_list_for_user.html");
+		return true;
+	}
 	return false;
 }
 

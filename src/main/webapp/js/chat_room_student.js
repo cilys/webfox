@@ -1,4 +1,8 @@
 $(document).ready(function(){
+	if(checkHtml()){
+		return;
+	}
+	
 	//消息常量区
 	const HEART_PING = 98;
     const HEART_PONG = 99;
@@ -24,8 +28,16 @@ $(document).ready(function(){
 	
 	$("#div_right_title").html("<legend>" 
 								+ (strIsEmpty(roomName) ? roomId : roomName) 
-								+ "【" + user + "】"
+								+ "【学生:" + user + "】"
 								+ "</legend>")
+	
+	$("#div_right_title").on("click", function(){
+		layer.confirm("是否退出登录?", function(){
+			clearCookie();
+			href("./login.html");
+			
+		})
+	})
 	
 	var drawType = 1;//绘制图形的类型，1直线、2圆圈、3文字
 	
