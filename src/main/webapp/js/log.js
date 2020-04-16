@@ -21,6 +21,10 @@ function href(url){
 //	location.href = url;
 }
 
+function toUrl(url){
+	location.href = url;
+}
+
 function pHref(url){
 	history.replaceState("", "", window.parent.href = url);
 //	window.location.href = url;

@@ -79,7 +79,14 @@ $(document).ready(function(){
 				var id = $(this).attr("data-id")
 				var name = $(this).attr("data-name")
 				layer.confirm('是否进入该房间？',function(index){
-		              href("./chat_room.html?roomId=" + id + "&name=" + name);
+					layer.closeAll();
+					
+					if(getUserIdentify() == 1){
+		            		toUrl("./chat_room_teacher.html?roomId=" + id + "&roomName=" + name);
+		            }else{
+		            		toUrl("./chat_room_student.html?roomId=" + id + "&roomName=" + name);
+		            }
+		            
 		        });
 			})
 		} else {

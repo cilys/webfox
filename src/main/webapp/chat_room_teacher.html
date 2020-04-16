@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>老师操作</title>
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+		<link rel="stylesheet" href="./css/font.css">
+		<link rel="stylesheet" href="./css/xadmin.css">
+		<link rel="stylesheet" href="css/chat_room.css" />
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="./lib/layui/layui.js" charset="utf-8"></script>
+		<script type="text/javascript" src="./js/xadmin.js"></script>
+		<script type="text/javascript" src="js/ajax.js"></script>
+		<script type="text/javascript" src="js/conf.js"></script>
+		<script type="text/javascript" src="js/log.js"></script>
+		<script type="text/javascript" src="js/str.js"></script>
+		<script type="text/javascript" src="js/unlogin.js"></script>
+		<script type="text/javascript" src="js/chat_room_teacher.js" ></script>
+
+	</head>
+
+	<body>
+		<div class="div_base">
+			<div class="div_left_base">
+				
+				<div class="div_left_center">
+					<canvas width="600" height="530" id="canvas_white_board"></canvas>
+					
+					<!--<div>
+						<textarea id="textarea_question" disabled="" type="text" name="title" lay-verify="title" autocomplete="off" class="layui-textarea"></textarea>
+					</div>-->
+				</div>
+					
+				<div>
+					<div class="layui-btn-group" style=" float: left;">
+						<button id="btn_line" type="button" class="layui-btn layui-btn-sm">
+							<i class="layui-icon">—</i>
+						</button>
+						<button id="btn_circle" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
+							<i class="layui-icon">&#xe63f;</i>
+						</button>
+					</div>
+					
+					<div class="layui-btn-group" style=" float: right;">
+						<!--<button id="btn_pre" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
+							<i class="layui-icon">&#xe603;</i>
+						</button>
+						<button id="btn_clear" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
+							<i class="layui-icon">&#x1006;</i>
+						</button>
+						<button id="btn_download" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
+							<a href="" download="canvas.png" id="save_href">
+							<i class="layui-icon">&#xe601;</i>
+							</a>
+						</button>-->
+						<button id="btn_pre" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
+							撤销
+						</button>
+						<button id="btn_clear" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
+							清屏
+						</button>
+						<button id="btn_download" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
+							<a href="" download="canvas.png" id="save_href">
+							导出
+							</a>
+						</button>
+						<!--<input type="file" accept="text/plain" class="layui-btn layui-btn-sm layui-btn-primary" title="上传问题" />-->
+						<label class="layui-btn layui-btn-sm layui-btn-primary" for="xFile">上传问题</label>
+						<!--<input type="file" id="xFile" onchange="openFile(event)" style="position:absolute;clip:rect(0 0 0 0);"/>-->
+						<input type="file" id="xFile" style="position:absolute;clip:rect(0 0 0 0);"/>
+						
+						<!--<button id="btn_clear_question" type="button" class="layui-btn layui-btn-sm layui-btn-primary">清除问题</button>-->
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="div_right_base">
+				<div id="div_right_title" class="div_right_top layui-btn layui-btn-normal">
+					
+				</div>
+				
+				<div class="div_right_top layui-btn-group">
+					<button id="btn_chat" type="button" style="width: 150px;" class="layui-btn layui-btn-fluid">聊天</button>
+					<button id="btn_members" type="button" style="width: 150px;" class="layui-btn layui-btn-primary layui-btn-fluid">成员</button>
+				</div>
+				<div class="div_right_center">
+					<div id="div_area_chat" style="height: 100%; overflow: auto;"></div>
+					<div id="div_area_members" style="height:100%; display: none;">
+						
+					</div>
+				</div>
+				
+				
+
+				<div>
+					<textarea id="textarea_send_msg" type="text" name="title" lay-verify="title" autocomplete="off" class="layui-textarea"></textarea>
+					<div class="layui-btn-group" style="float: left;">
+						<button id="btn_connect" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
+							连接
+						</button>
+						<button id="btn_disconnect" disabled="disabled" type="button" class="layui-btn layui-btn-sm layui-btn-primary layui-btn-disabled">
+							断开
+						</button>
+					</div>
+					<div class="layui-btn-group" style="float: right;">
+						<button id="btn_clear_msg" type="button" class="layui-btn layui-btn-primary layui-btn-sm">清空消息</button>
+						<button id="btn_send" disabled="disabled" type="button" class="layui-btn layui-btn-normal layui-btn-sm layui-btn-disabled" >发送消息</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	
+	<!--<script type="text/javascript">
+		var input_file = document.getElementById("xFile");
+		function openFile(event){
+			var input = event.target;
+				console.log('input = ' + input);
+				var reader = new FileReader();
+				reader.onload = function(){
+					if(reader.result){
+						$("#textarea_question").val(reader.result);
+						
+//						drawText(reader.result);
+						input_file.outerHTML = input_file.outerHTML
+					}
+				}
+				reader.readAsText(input.files[0]);
+		}
+	</script>-->
+</html>
