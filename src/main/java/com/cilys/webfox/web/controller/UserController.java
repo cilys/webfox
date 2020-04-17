@@ -58,13 +58,13 @@ public class UserController extends BaseController {
 
     @Clear({LoginedInterceptor.class})
     @Before({UserNameInterceptor.class, PwdInterceptor.class,
-            PhoneInterceptor.class, IdCardInterceptor.class})
+            PhoneInterceptor.class})
     public void regist(){
         UserUtils.regist(this, null, null);
     }
 
     @Before({UserIdInterceptor.class, PwdInterceptor.class,
-            PhoneInterceptor.class, IdCardInterceptor.class})
+            PhoneInterceptor.class})
     public void updateUserInfo(){
         UserUtils.updateUserInfo(this, null, getUserId(), null);
     }

@@ -23,7 +23,7 @@ public class SysUserController extends BaseController {
     }
 
     @Before({UserIdInterceptor.class, UserNameInterceptor.class, PwdInterceptor.class,
-            PhoneInterceptor.class, IdCardInterceptor.class})
+            PhoneInterceptor.class})
     public void updateUserStatus(){
         UserUtils.updateUserInfo(this, getUserId(), getParam(SQLParam.USER_ID),
                 getParam(SQLParam.STATUS));
