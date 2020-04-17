@@ -32,7 +32,7 @@
 		<div class="x-body">
 			<form class="layui-form layui-form-pane">
 				<div class="layui-form-item">
-					<label for="username" class="layui-form-label">
+					<label for="input_user_name" class="layui-form-label">
                   		<span class="x-red">*</span>登录账号
               		</label>
 					<div class="layui-input-block">
@@ -41,7 +41,7 @@
 
 				</div>
 				<div class="layui-form-item">
-					<label for="phone" class="layui-form-label">
+					<label for="input_real_name" class="layui-form-label">
                   		<span class="x-red"></span>真实姓名
               		</label>
 					<div class="layui-input-block">
@@ -63,7 +63,7 @@
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label for="L_pass" class="layui-form-label">
+					<label for="input_pwd" class="layui-form-label">
                   		<span class="x-red">*</span>密码
               		</label>
 					<div class="layui-input-block">
@@ -71,7 +71,7 @@
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label for="L_repass" class="layui-form-label">
+					<label for="input_re_pwd" class="layui-form-label">
                   		<span class="x-red">*</span>确认密码
               		</label>
 					<div class="layui-input-block">
@@ -80,7 +80,7 @@
 				</div>
 				
 				<div class="layui-form-item">
-					<label for="L_email" class="layui-form-label">
+					<label for="input_phone" class="layui-form-label">
                   		<span class="x-red"></span>手机号码
               		</label>
 					<div class="layui-input-block">
@@ -90,30 +90,15 @@
 				<div class="layui-form-item" pane="">
 					<label class="layui-form-label"><span class="x-red">*</span>用户身份</label>
 					<div class="layui-input-block">
+						<input id="radio_identify_admin" type="radio" name="userIdentify" lay-skin="primary" value="0" title="管理员">
 						<input id="radio_identify_teacher" type="radio" name="userIdentify" lay-skin="primary" value="1" title="老师">
 						<input id="radio_identify_student" type="radio" name="userIdentify" lay-skin="primary" value="2" title="学生" checked="checked">
 					</div>
 				</div>
-				<!--<div class="layui-form-item">
-					<label for="L_email" class="layui-form-label">
-                  		<span class="x-red"></span>身份证号
-              		</label>
-					<div class="layui-input-block">
-						<input type="text" id="input_idcard" placeholder="请输入身份证号码" name="idcard" autocomplete="off" class="layui-input">
-					</div>
-				</div>-->
-				
-				<!--<div class="layui-form-item">
-					<label for="L_email" class="layui-form-label">
-                  		<span class="x-red"></span>详细地址
-              		</label>
-					<div class="layui-input-block">
-						<input type="text" id="input_address" placeholder="请输入详细地址" name="address" autocomplete="off" class="layui-input">
-					</div>-->
-				</div>
+
 				
 				<div class="layui-form-item">
-					<label for="L_repass" class="layui-form-label">
+					<label for="btn_add" class="layui-form-label">
               		</label>
 					<button id="btn_add" type="button" class="layui-btn" lay-filter="add" lay-submit="">
                   		增加

@@ -31,10 +31,6 @@
 				
 				<div class="div_left_center">
 					<canvas width="600" height="530" id="canvas_white_board"></canvas>
-					
-					<!--<div>
-						<textarea id="textarea_question" disabled="" type="text" name="title" lay-verify="title" autocomplete="off" class="layui-textarea"></textarea>
-					</div>-->
 				</div>
 					
 				<div>
@@ -84,11 +80,6 @@
 							</a>
 						</button>
 						
-						<!--<input type="file" id="xFile" onchange="openFile(event)" style="position:absolute;clip:rect(0 0 0 0);"/>-->
-						<!--<label style="display: none;" class="layui-btn layui-btn-sm layui-btn-primary" for="xFile">上传问题</label>
-						<input style="display: none;"  type="file" id="xFile" style="position:absolute;clip:rect(0 0 0 0);"/>
-						-->
-						<!--<button id="btn_clear_question" type="button" class="layui-btn layui-btn-sm layui-btn-primary">清除问题</button>-->
 					</div>
 				</div>
 			</div>
@@ -131,22 +122,4 @@
 		</div>
 
 	</body>
-	
-	<!--<script type="text/javascript">
-		var input_file = document.getElementById("xFile");
-		function openFile(event){
-			var input = event.target;
-				console.log('input = ' + input);
-				var reader = new FileReader();
-				reader.onload = function(){
-					if(reader.result){
-						$("#textarea_question").val(reader.result);
-						
-//						drawText(reader.result);
-						input_file.outerHTML = input_file.outerHTML
-					}
-				}
-				reader.readAsText(input.files[0]);
-		}
-	</script>-->
 </html>

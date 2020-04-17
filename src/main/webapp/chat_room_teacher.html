@@ -32,9 +32,7 @@
 				<div class="div_left_center">
 					<canvas width="600" height="530" id="canvas_white_board"></canvas>
 					
-					<!--<div>
-						<textarea id="textarea_question" disabled="" type="text" name="title" lay-verify="title" autocomplete="off" class="layui-textarea"></textarea>
-					</div>-->
+
 				</div>
 					
 				<div>
@@ -43,36 +41,22 @@
 							直线
 						</button>
 						<button id="btn_circle" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
-							<!--<i class="layui-icon">&#xe63f;</i>-->
 							圆形
 						</button>
 						<button id="btn_sanjiao" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
-							<!--<i class="layui-icon">&#xe63f;</i>-->
 							三角形
 						</button>
 						<button id="btn_zhengfang" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
-							<!--<i class="layui-icon">&#xe63f;</i>-->
 							正方形
 						</button>
 						<button id="btn_changfang" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
-							<!--<i class="layui-icon">&#xe63f;</i>-->
 							长方形
 						</button>
 					
 					</div>
 					
 					<div class="layui-btn-group" style=" float: right;">
-						<!--<button id="btn_pre" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
-							<i class="layui-icon">&#xe603;</i>
-						</button>
-						<button id="btn_clear" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
-							<i class="layui-icon">&#x1006;</i>
-						</button>
-						<button id="btn_download" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
-							<a href="" download="canvas.png" id="save_href">
-							<i class="layui-icon">&#xe601;</i>
-							</a>
-						</button>-->
+
 						<button id="btn_pre" type="button" class="layui-btn layui-btn-sm layui-btn-primary">
 							撤销
 						</button>
@@ -84,12 +68,8 @@
 							导出
 							</a>
 						</button>
-						<!--<input type="file" accept="text/plain" class="layui-btn layui-btn-sm layui-btn-primary" title="上传问题" />-->
 						<label id="label_upload_file" class="layui-btn layui-btn-sm layui-btn-primary" for="xFile">上传问题</label>
-						<!--<input type="file" id="xFile" onchange="openFile(event)" style="position:absolute;clip:rect(0 0 0 0);"/>-->
 						<input type="file" id="xFile" style="position:absolute;clip:rect(0 0 0 0);"/>
-						
-						<!--<button id="btn_clear_question" type="button" class="layui-btn layui-btn-sm layui-btn-primary">清除问题</button>-->
 					</div>
 				</div>
 			</div>
@@ -132,22 +112,4 @@
 		</div>
 
 	</body>
-	
-	<!--<script type="text/javascript">
-		var input_file = document.getElementById("xFile");
-		function openFile(event){
-			var input = event.target;
-				console.log('input = ' + input);
-				var reader = new FileReader();
-				reader.onload = function(){
-					if(reader.result){
-						$("#textarea_question").val(reader.result);
-						
-//						drawText(reader.result);
-						input_file.outerHTML = input_file.outerHTML
-					}
-				}
-				reader.readAsText(input.files[0]);
-		}
-	</script>-->
 </html>

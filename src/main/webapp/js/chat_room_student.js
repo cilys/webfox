@@ -21,10 +21,7 @@ $(document).ready(function(){
 	
 	var roomId = getUrlParam("roomId");
 	var roomName = getUrlParam("roomName")
-//	roomId = 1;
 	var user = getName();
-//	user = "张三(zhangsan)";
-//	user = "李四(zhangsan)";
 	
 	$("#div_right_title").html("<legend>" 
 								+ (strIsEmpty(roomName) ? roomId : roomName) 
@@ -34,8 +31,6 @@ $(document).ready(function(){
 	$("#div_right_title").on("click", function(){
 		layer.confirm("是否返回?", function(){
 			closeWebSocket();
-//			clearCookie();
-//			href("./login.html");
 			window.history.go(-1);
 		})
 	})
