@@ -6,6 +6,8 @@ import com.cilys.chatroom.msg.MsgBean;
 import com.cilys.chatroom.msg.MsgType;
 import com.cilys.chatroom.utils.Utils;
 
+import javax.websocket.*;
+import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
@@ -14,13 +16,13 @@ import java.util.Map;
 /**
  * websocket连接器
  */
-@ServerEndpoint(value = "/room/{roomNumber}/{userName}")
+@ServerEndpoint(value = "/websocket/room/{roomNumber}/{userName}")
 public class WebSocketServer {
     private Session session;        //全局Session
     private long lastReceiveMsg;    //上一次收到消息
     private String roomNumber;      //聊天室号码
     private String userName;        //用户名称
-    private String userStatus = "0";      //用户状态，0默认正常状态、1正在答题
+    private String userStatus = "0";      //用户状态，0默认状态、1正在答题
     private long lastPushCheckInOutQRCodeTime;  //上一次推送二维码（扫码打卡）的时间
     public final static String ROOM_NUMBER_CHECK_IN_OUT = "checkInOut"; //扫码的唯一房间号码
 
@@ -58,10 +60,7 @@ public class WebSocketServer {
 
         SessionCacheMap.sendRoomMsg(MsgType.ROOM_MEMBER_LIST_RESPONSE, "system", roomNumber, SessionCacheMap.getRoomMembers(roomNumber), false);
 
-        //如果上二维码扫码打卡，登录后给该网页推送一个二维码
-        if (ROOM_NUMBER_CHECK_IN_OUT.equals(roomNumber)){
-            SessionCacheMap.pushCheckInOutQRCode(userName, this);
-        }
+
 
     }
 
@@ -106,6 +105,8 @@ public class WebSocketServer {
         Utils.log("userName = " + userName + "<--->退出聊天室：" + roomNumber);
 
         SessionCacheMap.remove(userName);
+
+        SessionCacheMap.sendRoomTextNotifyMsg(userName, roomNumber, userName + "已离开聊天室...");
 
         SessionCacheMap.sendRoomMsg(MsgType.ROOM_MEMBER_LIST_RESPONSE, "system", roomNumber, SessionCacheMap.getRoomMembers(roomNumber), false);
     }

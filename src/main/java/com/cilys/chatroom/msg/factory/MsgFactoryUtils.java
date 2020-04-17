@@ -14,8 +14,6 @@ public class MsgFactoryUtils {
             return new HeartPingFactory();
         } else if (msgType == MsgType.HEART_PONG) {
             return new HeartPongFactory();
-        } else if (msgType == MsgType.QRCODE_TEXT) {
-            return new QRCodeTextFactor();
         } else if (msgType == MsgType.ROOM_TEXT){
             return new RoomTextFactory();
         } else if (msgType == MsgType.ROOM_TEXT_NOTIFY){

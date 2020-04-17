@@ -134,6 +134,10 @@ function saveLoginInfo(userName, pwd){
 	window.localStorage.setItem("userName", userName);
 	window.localStorage.setItem("pwd", pwd);
 }
+function saveRealName(realName){
+	window.localStorage.setItem("realName", realName);
+}
+
 function getUserName(){
 	var userName = window.localStorage.getItem("userName");
 	return (userName == null || userName == "") ? "" : userName;

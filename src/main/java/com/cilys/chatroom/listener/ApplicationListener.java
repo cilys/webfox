@@ -1,6 +1,5 @@
 package com.cilys.chatroom.listener;
 
-import com.cilys.chatroom.msg.send.MsgSendThreadPool;
 import com.cilys.chatroom.threadpools.LoopTaskThreadPool;
 import com.cilys.chatroom.utils.Utils;
 import com.cilys.chatroom.websocket.LoopRunnable;
@@ -22,7 +21,6 @@ public class ApplicationListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         Utils.log("contextDestroyed");
-        MsgSendThreadPool.shuwdownNow();
         LoopTaskThreadPool.stopTimer();
     }
 }

@@ -1,6 +1,7 @@
 package com.cilys.webfox.web;
 
 import com.cily.utils.base.StrUtils;
+import com.cilys.webfox.web.Handler.WebSocketHandler;
 import com.cilys.webfox.web.conf.SQLParam;
 import com.cilys.webfox.web.controller.*;
 import com.cilys.webfox.web.controller.sys.menu.SysMenuController;
@@ -12,6 +13,8 @@ import com.cilys.webfox.web.controller.sys.user.UserRoleController;
 import com.cilys.webfox.web.interceptor.LogInterceptor;
 import com.cilys.webfox.web.model.*;
 import com.jfinal.config.*;
+import com.jfinal.core.ActionHandler;
+import com.jfinal.ext.handler.UrlSkipHandler;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
@@ -84,6 +87,6 @@ public class Conf extends JFinalConfig {
 
     @Override
     public void configHandler(Handlers me) {
-
+        me.add(new WebSocketHandler());
     }
 }

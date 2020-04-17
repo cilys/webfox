@@ -1,6 +1,5 @@
 package com.cilys.chatroom.msg.factory;
 
-import com.cilys.chatroom.msg.schedule.MsgSchedule;
 import com.cilys.chatroom.utils.Utils;
 import com.cilys.chatroom.websocket.WebSocketServer;
 
@@ -24,7 +23,9 @@ public class MsgDispatch {
         if (jsonMsg == null){
             return;
         }
-        MsgSchedule.putCache(jsonMsg, server);
+        server.sendMsg(jsonMsg);
+
+//        MsgSchedule.putCache(jsonMsg, server);
     }
 
 

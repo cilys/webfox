@@ -58,6 +58,7 @@
 
 								if(res.code == 0) {
 									saveLoginInfo($("#userName").val(), $("#pwd").val());
+									saveRealName(res.data.realName);
 									saveCookie(res.token, res.data.userId);
 									saveUserIdentify(res.data.userIdentify);
 									//userIdentify用户身份，0管理员，1老师，2学生

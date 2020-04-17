@@ -17,12 +17,12 @@ public class LoopRunnable implements Runnable {
 
     @Override
     public void run() {
-        Utils.log("定时器到了...");
+//        Utils.log("定时器到了...");
         if (System.currentTimeMillis() - lastCheckTimeOutTime < SessionCacheMap.TIME_OUT){
-            Utils.log("时间太短，无需检测超时...");
+//            Utils.log("时间太短，无需检测超时...");
         } else {
             lastCheckTimeOutTime = System.currentTimeMillis();
-            Utils.log("开始检测超时sesseion...");
+//            Utils.log("开始检测超时sesseion...");
             SessionCacheMap.checkTimeOut();
         }
     }

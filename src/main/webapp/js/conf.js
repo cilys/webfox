@@ -6,7 +6,7 @@ function getHost(){
 }
 
 function getWebSocketHost(){
-	return "ws://localhost:8080/webfox/";
+	return "ws://127.0.0.1:8080/webfox/websocket/room/";
 }
 
 function log(str){

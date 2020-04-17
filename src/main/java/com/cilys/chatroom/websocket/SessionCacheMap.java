@@ -1,6 +1,5 @@
 package com.cilys.chatroom.websocket;
 
-import com.cilys.chatroom.checkInOut.CheckInOutQRCode;
 import com.cilys.chatroom.msg.MsgType;
 import com.cilys.chatroom.msg.factory.MsgDispatch;
 import com.cilys.chatroom.utils.Utils;
@@ -98,7 +97,7 @@ public class SessionCacheMap {
     }
 
 
-    public final static long TIME_OUT = 15000;
+    public final static long TIME_OUT = 30000;
     /** 心跳规则：
      * 1、心跳超时默认为15s
      * 2、由客户端主动发起心跳ping包，服务端回应心跳pong包
@@ -125,10 +124,6 @@ public class SessionCacheMap {
                     }else {
                         sendHeartPing(user, server);
                     }
-
-                    if (WebSocketServer.ROOM_NUMBER_CHECK_IN_OUT.equals(server.getRoomNumber())){
-                        CheckInOutQRCode(user, server);
-                    }
                 }
             }
         }
@@ -148,26 +143,7 @@ public class SessionCacheMap {
         MsgDispatch.dispatch(MsgType.HEART_PONG, "system", userName, "HeartPing", server);
     }
 
-    private static void CheckInOutQRCode(String user, WebSocketServer server){
-        if (Utils.isEmpty(user)){
-            return;
-        }
-        if (server == null){
-            return;
-        }
-        if (System.currentTimeMillis() - server.getLastPushCheckInOutQRCodeTime() > 60000){
-            pushCheckInOutQRCode(user, server);
-        }
-    }
-    public static void pushCheckInOutQRCode(String toUser, WebSocketServer server){
-        if (Utils.isEmpty(toUser)){
-            return;
-        }
-        if (server != null){
-            MsgDispatch.dispatch(MsgType.QRCODE_TEXT, "system", toUser, CheckInOutQRCode.qrCode(), server);
-            server.setLastPushCheckInOutQRCodeTime();
-        }
-    }
+
 
     public static List<Map<String, Object>> getRoomMembers(String roomNumber){
         if (Utils.isEmpty(roomNumber)){
@@ -208,6 +184,11 @@ public class SessionCacheMap {
         while (it.hasNext()){
             String user = it.next();
             if (!userName.equals(user)){
+                //其它用户的状态，全部恢复成默认值。保证同时只有一个用户可以操作白板
+                WebSocketServer server = sessionMap.get(user);
+                if (server != null) {
+                    server.setUserStatus("0");
+                }
                 continue;
             }
             if (Utils.isEmpty(user)){

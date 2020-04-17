@@ -22,20 +22,6 @@ $(document).ready(function(){
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	var roomId = getUrlParam("roomId");
 	var roomName = getUrlParam("roomName")
 //	roomId = 1;
@@ -48,34 +34,93 @@ $(document).ready(function(){
 								+ "【老师:" + user + "】"
 								+ "</legend>")
 	$("#div_right_title").on("click", function(){
-		layer.confirm("是否退出登录?", function(){
-			clearCookie();
-			href("./login.html");
+		layer.confirm("是否返回?", function(){
+			closeWebSocket();
+//			clearCookie();
+//			href("./login.html");
+			window.history.go(-1);
 			
 		})
 	})
 	
-	var drawType = 1;//绘制图形的类型，1直线、2圆圈、3文字
+	var drawType = 1;//绘制图形的类型，1直线、2圆圈、3文字、4三角形、5正方形、6长方形
 	
 	
-	var currentDrawStatus = 0;	//当前的绘制状态，0自己画、1远程同步过来画图
+	var currentDrawStatus = 0;	//当前的绘制状态，0禁止绘制（即同步远程的绘图）、1自己绘制（把自己的绘图，同步给所有人）
+	//userStatus = 0，默认状态（即禁止绘制）；1正在答题（正在绘制。并把自己的绘图，同步给所有人）
+	
+	enableLocalDraw();
 	
 	$("#btn_line").on("click", function(){
 		drawType = 1;
 		$("#btn_line").removeClass("layui-btn-primary");
 		$("#btn_circle").removeClass("layui-btn-primary");
+		$("#btn_sanjiao").removeClass("layui-btn-primary");
+		$("#btn_zhengfang").removeClass("layui-btn-primary");
+		$("#btn_changfang").removeClass("layui-btn-primary");
 		
 		$("#btn_circle").addClass("layui-btn-primary");
+		$("#btn_sanjiao").addClass("layui-btn-primary");
+		$("#btn_zhengfang").addClass("layui-btn-primary");
+		$("#btn_changfang").addClass("layui-btn-primary");
 	})
 	$("#btn_circle").on("click", function(){
 		drawType = 2;
 		$("#btn_line").removeClass("layui-btn-primary");
 		$("#btn_circle").removeClass("layui-btn-primary");
+		$("#btn_sanjiao").removeClass("layui-btn-primary");
+		$("#btn_zhengfang").removeClass("layui-btn-primary");
+		$("#btn_changfang").removeClass("layui-btn-primary");
 		
 		$("#btn_line").addClass("layui-btn-primary");
+		$("#btn_sanjiao").addClass("layui-btn-primary");
+		$("#btn_zhengfang").addClass("layui-btn-primary");
+		$("#btn_changfang").addClass("layui-btn-primary");
+	})
+	$("#btn_sanjiao").on("click", function(){
+		drawType = 4;
+		$("#btn_line").removeClass("layui-btn-primary");
+		$("#btn_circle").removeClass("layui-btn-primary");
+		$("#btn_sanjiao").removeClass("layui-btn-primary");
+		$("#btn_zhengfang").removeClass("layui-btn-primary");
+		$("#btn_changfang").removeClass("layui-btn-primary");
+		
+		$("#btn_line").addClass("layui-btn-primary");
+		$("#btn_circle").addClass("layui-btn-primary");
+		$("#btn_zhengfang").addClass("layui-btn-primary");
+		$("#btn_changfang").addClass("layui-btn-primary");
+	})
+	$("#btn_zhengfang").on("click", function(){
+		drawType = 5;
+		$("#btn_line").removeClass("layui-btn-primary");
+		$("#btn_circle").removeClass("layui-btn-primary");
+		$("#btn_sanjiao").removeClass("layui-btn-primary");
+		$("#btn_zhengfang").removeClass("layui-btn-primary");
+		$("#btn_changfang").removeClass("layui-btn-primary");
+		
+		$("#btn_line").addClass("layui-btn-primary");
+		$("#btn_circle").addClass("layui-btn-primary");
+		$("#btn_sanjiao").addClass("layui-btn-primary");
+		$("#btn_changfang").addClass("layui-btn-primary");
+	})
+	$("#btn_changfang").on("click", function(){
+		drawType = 6;
+		$("#btn_line").removeClass("layui-btn-primary");
+		$("#btn_circle").removeClass("layui-btn-primary");
+		$("#btn_sanjiao").removeClass("layui-btn-primary");
+		$("#btn_zhengfang").removeClass("layui-btn-primary");
+		$("#btn_changfang").removeClass("layui-btn-primary");
+		
+		$("#btn_line").addClass("layui-btn-primary");
+		$("#btn_circle").addClass("layui-btn-primary");
+		$("#btn_sanjiao").addClass("layui-btn-primary");
+		$("#btn_zhengfang").addClass("layui-btn-primary");
 	})
 	
 	$("#btn_pre").on("click", function(){
+		undo();
+	})
+	function undo(){
 		clearRect();
 		
 		attr_draw.pop();
@@ -83,7 +128,7 @@ $(document).ready(function(){
 		for(var i = 0; i < attr_draw.length; i++){
 			draw(attr_draw[i], false)
 		}
-	})
+	}
 	$("#btn_clear").on("click", function(){
 		clearRect();
 		attr_draw.length = 0
@@ -116,6 +161,9 @@ $(document).ready(function(){
 	
 	//鼠标按下
 	canvas.onmousedown = function(event){
+		if(currentDrawStatus == 0){
+			return;
+		}
 		if(drawType == 1){
 			startX = event.x;
 			startY = event.y;
@@ -129,6 +177,9 @@ $(document).ready(function(){
 	}
 	//鼠标抬起
 	canvas.onmouseup = function(event){
+		if(currentDrawStatus == 0){
+			return;
+		}
 		if(drawType == 1){
 			var endX = event.x;
 			var endY = event.y;
@@ -143,12 +194,18 @@ $(document).ready(function(){
 			obj.endY = event.y;
 			obj.drawType = drawType;
 			draw(obj, true);
+		} else if(drawType == 4 || drawType == 5 || drawType == 6){
+			obj = new Object();
+			obj.endX = event.x;
+			obj.endY = event.y;
+			obj.drawType = drawType;
+			draw(obj, true);
 		}
 	}
 	
 	
 	
-	
+	const dis = 30;
 	function draw(obj, pushCache){
 		if(obj.drawType == 1){
 			drawLine(obj.startX, obj.startY, obj.endX, obj.endY);
@@ -156,17 +213,79 @@ $(document).ready(function(){
 			drawCircle(obj.endX, obj.endY, 50);
 		} else if(obj.drawType == 3){
 			drawText(obj.text)
+		} else if(obj.drawType == 4){
+			var x1 = obj.endX - dis;
+			var y1 = obj.endY;
+			
+			var x2 = obj.endX + dis;
+			var y2 = obj.endY;
+			
+			var x3 = obj.endX;
+			var y3 = obj.endY - dis * 2;
+			
+			drawSanjiao(x1, y1, x2, y2, x3, y3);
+		} else if(obj.drawType == 5){
+			var x1 = obj.endX - dis;
+			var y1 = obj.endY - dis;
+			
+			var x2 = obj.endX + dis;
+			var y2 = obj.endY - dis;
+			
+			var x3 = obj.endX - dis;
+			var y3 = obj.endY + dis;
+			
+			var x4 = obj.endX + dis;
+			var y4 = obj.endY + dis;
+			
+			drawFangxing(x1, y1, x2, y2, x3, y3, x4, y4);
+		} else if(obj.drawType == 6){
+			var x1 = obj.endX - dis * 2;
+			var y1 = obj.endY - dis;
+			
+			var x2 = obj.endX + dis * 2;
+			var y2 = obj.endY - dis;
+			
+			var x3 = obj.endX - dis * 2;
+			var y3 = obj.endY + dis;
+			
+			var x4 = obj.endX + dis * 2;
+			var y4 = obj.endY + dis;
+			
+			drawFangxing(x1, y1, x2, y2, x3, y3, x4, y4);
 		}
 		
-		//0自己画，1远程同步过来的
+		//0禁止绘制（即远程同步过来的），1自己绘制（并同步给所有人）
 		if(currentDrawStatus == 0){
+			
+		}else if(currentDrawStatus == 1){
 			if(pushCache){
 				attr_draw.push(obj)
 			}
 			sendMsg(createMsg(WHITE_BOARD_DRAW, obj));
-		}else if(currentDrawStatus == 1){
-			
 		}
+	}
+	
+	function drawSanjiao(x1, y1, x2, y2, x3, y3){
+		ctx.beginPath();
+		ctx.moveTo(x1, y1);
+		ctx.lineTo(x2, y2);
+		ctx.lineTo(x3, y3);
+		ctx.lineTo(x1, y1);
+		ctx.stroke();
+//		ctx.fill();
+		ctx.closePath();
+	}
+	
+	function drawFangxing(x1, y1, x2, y2, x3, y3, x4, y4){
+		ctx.beginPath();
+		ctx.moveTo(x1, y1);
+		ctx.lineTo(x2, y2);
+		ctx.lineTo(x4, y4);
+		ctx.lineTo(x3, y3);
+		ctx.lineTo(x1, y1);
+		ctx.stroke();
+//		ctx.fill();
+		ctx.closePath();
 	}
 	
 	function drawLine(startX, startY, endX, endY){
@@ -190,7 +309,7 @@ $(document).ready(function(){
 		ctx.clearRect(0, 0, 600, 530);
 		ctx.closePath()
 		
-		if(currentDrawStatus == 0){
+		if(currentDrawStatus == 1){
 			sendMsg(createMsg(WHITE_BOARD_CLEAR_SCREEN, "clear screen"));
 		}
 	}
@@ -243,15 +362,7 @@ $(document).ready(function(){
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	
@@ -314,7 +425,71 @@ $(document).ready(function(){
 	}
 	
 	
-	
+	function enableLocalDraw(){
+		if(currentDrawStatus == 0){
+			$("#btn_line").removeClass("layui-btn-disabled");
+			$("#btn_line").addClass("layui-btn-disabled");
+			$("#btn_line").attr("disabled", true);
+			
+			$("#btn_circle").removeClass("layui-btn-disabled");
+			$("#btn_circle").addClass("layui-btn-disabled");
+			$("#btn_circle").attr("disabled", true);
+			
+			$("#btn_sanjiao").removeClass("layui-btn-disabled");
+			$("#btn_sanjiao").addClass("layui-btn-disabled");
+			$("#btn_sanjiao").attr("disabled", true);
+			
+			$("#btn_zhengfang").removeClass("layui-btn-disabled");
+			$("#btn_zhengfang").addClass("layui-btn-disabled");
+			$("#btn_zhengfang").attr("disabled", true);
+			
+			$("#btn_changfang").removeClass("layui-btn-disabled");
+			$("#btn_changfang").addClass("layui-btn-disabled");
+			$("#btn_changfang").attr("disabled", true);
+			
+			
+			
+			$("#btn_pre").removeClass("layui-btn-disabled");
+			$("#btn_pre").addClass("layui-btn-disabled");
+			$("#btn_pre").attr("disabled", true);
+			
+			$("#btn_clear").removeClass("layui-btn-disabled");
+			$("#btn_clear").addClass("layui-btn-disabled");
+			$("#btn_clear").attr("disabled", true);
+			
+			$("#label_upload_file").removeClass("layui-btn-disabled");
+			$("#label_upload_file").addClass("layui-btn-disabled");
+			$("#label_upload_file").attr("disabled", true);
+			$("#xFile").attr("disabled", true);
+		} else if(currentDrawStatus == 1){
+			$("#btn_line").removeClass("layui-btn-disabled");
+			$("#btn_line").attr("disabled", false);
+			
+			$("#btn_circle").removeClass("layui-btn-disabled");
+			$("#btn_circle").attr("disabled", false);
+			
+			
+			$("#btn_sanjiao").removeClass("layui-btn-disabled");
+			$("#btn_sanjiao").attr("disabled", false);
+			
+			$("#btn_zhengfang").removeClass("layui-btn-disabled");
+			$("#btn_zhengfang").attr("disabled", false);
+			
+			$("#btn_changfang").removeClass("layui-btn-disabled");
+			$("#btn_changfang").attr("disabled", false);
+			
+			
+			$("#btn_pre").removeClass("layui-btn-disabled");
+			$("#btn_pre").attr("disabled", false);
+			
+			$("#btn_clear").removeClass("layui-btn-disabled");
+			$("#btn_clear").attr("disabled", false);
+			
+			$("#label_upload_file").removeClass("layui-btn-disabled");
+			$("#label_upload_file").attr("disabled", false);
+			$("#xFile").attr("disabled", false);
+		}
+	}
 	
 	
 	
@@ -334,13 +509,18 @@ $(document).ready(function(){
 				s += "<div style='padding:5px; border-bottom: 1px solid #CCCCCC;'>"
 				s +=		"<div class='layui-btn-group'>"
 				
+				if(o.user == user){
+					currentDrawStatus = o.userStatus;
+					enableLocalDraw();
+				}
+				
 				if(o.userStatus == 1){
 					s +=		"<button id='btn_answer' data-user='" + o.user + "'  data-status='" + o.userStatus + "' class='layui-btn layui-btn-xs layui-btn-normal'>进行</button>"
 				}else{
 					s +=		"<button id='btn_answer' data-user='" + o.user + "'  data-status='" + o.userStatus + "' class='layui-btn layui-btn-xs layui-btn-primary'>答题</button>"	
 				}
 				s +=		"</div>"
-				s +=		o.user
+				s +=		(o.user)
 				s +=	"</div>"
 			$("#div_area_members").append(s);
 		})
@@ -348,15 +528,23 @@ $(document).ready(function(){
 		$("#div_area_members #btn_answer").on("click", function(){
 			var user = $(this).attr("data-user");
 			var userStatus = $(this).attr("data-status");
+			
 			var obj = {}
 			obj.userName = user;
 			if(userStatus == 1) {
-				obj.userStatus = "0";
+				layer.confirm("是否禁止答题？", function(){
+					layer.closeAll();
+					obj.userStatus = "0";
+					sendMsg(createMsg(OPTION_USER_STATUS, JSON.stringify(obj)))
+				});
+				
 			} else {
-				obj.userStatus = "1";
+				layer.confirm("是否允许答题？", function(){
+					layer.closeAll();
+					obj.userStatus = "1";
+					sendMsg(createMsg(OPTION_USER_STATUS, JSON.stringify(obj)))
+				});
 			}
-			
-			sendMsg(createMsg(OPTION_USER_STATUS, JSON.stringify(obj)))
 		})
 	}
 	
@@ -376,9 +564,9 @@ $(document).ready(function(){
 	var conected = false;
 	function initWebSocket(){
 		if("WebSocket" in window){
-//			ws = new WebSocket(getWebSocketHost() + roomId + "/" + getName())
+			ws = new WebSocket(getWebSocketHost() + roomId + "/" + user)
 //			ws = new WebSocket("ws://121.40.165.18:8800")
-			ws = new WebSocket("ws://127.0.0.1:8080/ChatRoom/room/" + roomId + "/" + user)
+//			ws = new WebSocket("ws://127.0.0.1:8080/ChatRoom/room/" + roomId + "/" + user)
 			ws.onopen = function(){
 				conected = true;
 				showToast("服务器连接成功")
@@ -506,6 +694,8 @@ $(document).ready(function(){
 				reader.onload = function(){
 					if(reader.result){
 //						$("#textarea_question").val(reader.result);
+						undo();
+						
 						
 						var txt = {}
 						txt.drawType = 3;
