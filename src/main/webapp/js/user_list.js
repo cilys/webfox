@@ -78,9 +78,6 @@ $(document).ready(function(){
 					+ 		"<button class='layui-btn layui-btn-primary layui-btn-sm' id='btn_edit' data-id='" + o.userId + "' data-name='" + strFomcatUserName(o.realName, o.userName) + "'>"
 					+			"<i class='layui-icon'>&#xe642;</i>"
 					+		"</button>"
-//					+ 		"<button class='layui-btn layui-btn-primary layui-btn-sm' id='btn_user_role' data-id='" + o.userId + "' data-name='" + strFomcatUserName(o.realName, o.userName) + "'>"
-//					+			"<i class='layui-icon'>&#xe65f;</i>"
-//					+		"</button>"
 					+		"<button class='layui-btn layui-btn-primary layui-btn-sm' id='btn_del' data-id='" + o.userId + "'>"
 					+			"<i class='layui-icon'>&#xe640;</i>"
 					+		"</button>"
@@ -126,7 +123,6 @@ $(document).ready(function(){
 				var userId = $(this).attr("data-id");
 				
 				layer.confirm('是否删除该用户？(此操作不可恢复，请谨慎操作！)',function(index){
-		              //发异步删除数据
 		            	del(userId)
 		        	});
 			})

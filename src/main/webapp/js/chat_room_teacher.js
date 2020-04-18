@@ -24,10 +24,7 @@ $(document).ready(function(){
 	
 	var roomId = getUrlParam("roomId");
 	var roomName = getUrlParam("roomName")
-//	roomId = 1;
 	var user = getName();
-//	user = "张三(zhangsan)";
-//	user = "李四(zhangsan)";
 	
 	$("#div_right_title").html("<legend>" 
 								+ (strIsEmpty(roomName) ? roomId : roomName) 
@@ -36,8 +33,6 @@ $(document).ready(function(){
 	$("#div_right_title").on("click", function(){
 		layer.confirm("是否返回?", function(){
 			closeWebSocket();
-//			clearCookie();
-//			href("./login.html");
 			window.history.go(-1);
 			
 		})
@@ -256,7 +251,7 @@ $(document).ready(function(){
 		
 		//0禁止绘制（即远程同步过来的），1自己绘制（并同步给所有人）
 		if(currentDrawStatus == 0){
-			
+			attr_draw.push(obj);
 		}else if(currentDrawStatus == 1){
 			if(pushCache){
 				attr_draw.push(obj)

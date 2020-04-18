@@ -91,7 +91,7 @@ $(document).ready(function(){
 		$("#btn_changfang").removeClass("layui-btn-primary");
 		
 		$("#btn_line").addClass("layui-btn-primary");
-		("#btn_circle").addClass("layui-btn-primary");
+		$("#btn_circle").addClass("layui-btn-primary");
 		$("#btn_sanjiao").addClass("layui-btn-primary");
 		$("#btn_changfang").addClass("layui-btn-primary");
 	})
@@ -247,7 +247,7 @@ $(document).ready(function(){
 		
 		//0禁止绘制（即远程同步过来的），1自己绘制（并同步给所有人）
 		if(currentDrawStatus == 0){
-			
+			attr_draw.push(obj);
 		}else if(currentDrawStatus == 1){
 			if(pushCache){
 				attr_draw.push(obj)
@@ -323,8 +323,8 @@ $(document).ready(function(){
 	    		var txtWidth = context.measureText(str[i]).width;
 	        lineWidth += txtWidth; 
 	        
-	        log("lineWidth = " + lineWidth);
-	        log("canvasWidth - initX = " + (canvasWidth - initX))
+//	        log("lineWidth = " + lineWidth);
+//	        log("canvasWidth - initX = " + (canvasWidth - initX))
 	        if(lineWidth > canvasWidth - 2 * initX - txtWidth){//减去initX,防止边界出现的问题
 	            context.fillText(str.substring(lastSubStrIndex, i), initX, initY);
 	            initY += lineHeight;
@@ -337,25 +337,6 @@ $(document).ready(function(){
 	    }
 	    ctx.closePath()
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -525,29 +506,7 @@ $(document).ready(function(){
 				s +=	"</div>"
 			$("#div_area_members").append(s);
 		})
-		
-//		$("#div_area_members #btn_answer").on("click", function(){
-//			var user = $(this).attr("data-user");
-//			var userStatus = $(this).attr("data-status");
-//			var obj = {}
-//			obj.userName = user;
-//			if(userStatus == 1) {
-//				obj.userStatus = "0";
-//			} else {
-//				obj.userStatus = "1";
-//			}
-//			
-//			sendMsg(createMsg(OPTION_USER_STATUS, JSON.stringify(obj)))
-//		})
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -670,35 +629,4 @@ $(document).ready(function(){
 		return JSON.stringify(msg);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-//	var input_file = document.getElementById("xFile");
-//		function openFile(event){
-//			var input = event.target;
-//				console.log('input = ' + input);
-//				var reader = new FileReader();
-//				reader.onload = function(){
-//					if(reader.result){
-////						$("#textarea_question").val(reader.result);
-//						
-//						var txt = {}
-//						txt.drawType = 3;
-//						txt.text = reader.result;
-//						
-//						draw(txt, true)
-////						input_file.outerHTML = input_file.outerHTML
-//					}
-//				}
-//				reader.readAsText(input.files[0]);
-//		}
-//	input_file.onchange = function(event){
-//		openFile(event);
-//	}
 })

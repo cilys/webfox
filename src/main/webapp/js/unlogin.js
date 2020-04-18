@@ -97,13 +97,9 @@ function loginInfoEmpty(){
 
 function unlogin(){
 		pHref("./login.html");
-//		href("./login.html");
 }
 
 function clearCookie(){
-//	$.cookie("userId", null);
-//	$.cookie("token", null);
-	
 	window.localStorage.removeItem("token");
 	window.localStorage.removeItem("userId");
 	window.localStorage.removeItem("userIdentify");
@@ -111,9 +107,6 @@ function clearCookie(){
 }
 
 function saveCookie(token, userId){
-//	$.cookie('token', token, {expires: 1, path: '/'});
-//	$.cookie('userId', userId, {expires: 1, path: '/'});
-
 	window.localStorage.setItem("token", token);
 	window.localStorage.setItem("userId", userId);
 }
@@ -149,7 +142,7 @@ function getPwd(){
 
 function getRealName(){
 	var realName = window.localStorage.getItem("realName");
-	return (realName == null || realName == "") ? getUserName() : realName;
+	return (realName == null || realName == "" || realName == undefined) ? getUserName() : realName;
 }
 
 function getName(){
