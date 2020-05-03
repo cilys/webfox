@@ -78,6 +78,8 @@ public class Param {
     public final static String C_ROOM_NOT_EXIST = "5056";
     public final static String C_ROOM_NAME_NULL = "5057";
 
+    public final static String C_FILE_UPLOAD_FAILED = "5060";
+
 
 
 
@@ -123,7 +125,7 @@ public class Param {
         failureInfo.put(C_ROOM_NOT_EXIST, "房间不存在");
         failureInfo.put(C_ROOM_NAME_NULL, "房间名称已存在");
         failureInfo.put(C_RIGHT_LOW, "权限不足");
-//        failureInfo.put(, );
+        failureInfo.put(C_FILE_UPLOAD_FAILED, "上传文件失败");
 //        failureInfo.put(, );
 //        failureInfo.put(, );
 //        failureInfo.put(, );

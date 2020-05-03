@@ -1,5 +1,5 @@
 .div_base {
-	width: 902px;
+	width: 1053px;
 	height: 600px;
 	/*margin: 30px auto;*/
 	border: 1px solid #CCCCCC;	
@@ -26,13 +26,13 @@
 }
 
 .div_right_base{
-	width: 300px; 
+	width: 450px; 
 	height: 600px; 
 	float: right;
 }
 
 .div_right_top{
-	width: 300px;
+	width: 450px;
 	/*height: 50px;*/
 	border-bottom: 1px solid #CCCCCC;
 }

@@ -27,6 +27,7 @@ public class Conf extends JFinalConfig {
         me.add("user", UserController.class);
         me.add("sys/user", SysUserController.class);
         me.add("room", RoomController.class);
+        me.add("roomAudio", RoomAudioController.class);
     }
 
     @Override

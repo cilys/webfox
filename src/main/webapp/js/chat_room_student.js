@@ -17,6 +17,8 @@ $(document).ready(function(){
     const WHITE_BOARD_DRAW = 1301;		//白板绘图，远程同步给其它用户
 	const WHITE_BOARD_CLEAR_SCREEN = 1302;	//白板绘图，清屏，远程同步给其它用户
 	
+	const ROOM_AUDIO_LIST = 1310;	//通知获取音频列表
+	
 	
 	
 	var roomId = getUrlParam("roomId");
@@ -133,6 +135,27 @@ $(document).ready(function(){
 //		$("#textarea_question").val("")
 	})
 	
+	function getAudioList(){
+		post(getHost() + "roomAudio/getAudios?roomNumber=" + roomId,
+		{
+			roomNumber : roomId
+		}
+		, function success(res){
+			showToast(res.msg)
+			if(res.code == 0){
+				var s = "";
+				$.each(res.data, function(r, o) {
+					s += 	"<audio controls>"
+								+ "<source src='" + getHost() + "roomAudio/getAudio?roomNumber=" + roomId + "&fileName=" + o.fileName + "'></source>"
+							+ "</audio>"
+				});
+				$("#div_audio_list").html(s);
+			}
+		}, function error(err){
+			showToast("添加失败，请重试..")
+		}
+		)
+	}
 	
 	//白板相关功能
 	var canvas = document.getElementById("canvas_white_board")
@@ -353,11 +376,14 @@ $(document).ready(function(){
 	$("#btn_chat").on("click", function(){
 		$("#btn_chat").removeClass("layui-btn-primary")
 		$("#btn_members").removeClass("layui-btn-primary")
+		$("#btn_audio").removeClass("layui-btn-primary")
 		
 		$("#btn_members").addClass("layui-btn-primary")
+		$("#btn_audio").addClass("layui-btn-primary")
 		
 		$("#div_area_chat").hide();
 		$("#div_area_members").hide();
+		$("#div_audio").hide();
 		$("#div_area_chat").show();
 		
 	})
@@ -365,13 +391,32 @@ $(document).ready(function(){
 	$("#btn_members").on("click", function(){
 		$("#btn_chat").removeClass("layui-btn-primary")
 		$("#btn_members").removeClass("layui-btn-primary")
+		$("#btn_audio").removeClass("layui-btn-primary")
 		
 		$("#btn_chat").addClass("layui-btn-primary")
+		$("#btn_audio").addClass("layui-btn-primary")
 		
 		
 		$("#div_area_chat").hide();
 		$("#div_area_members").hide();
+		$("#div_audio").hide();
 		$("#div_area_members").show();
+	})
+	
+	$("#btn_audio").on("click", function(){
+		$("#btn_chat").removeClass("layui-btn-primary")
+		$("#btn_members").removeClass("layui-btn-primary")
+		$("#btn_audio").removeClass("layui-btn-primary")
+		
+		$("#btn_chat").addClass("layui-btn-primary")
+		$("#btn_members").addClass("layui-btn-primary")
+		
+		$("#div_area_chat").hide();
+		$("#div_area_members").hide();
+		$("#div_audio").hide();
+		$("#div_audio").show();
+		
+		getAudioList();
 	})
 	
 	$("#btn_connect").on("click", function(){
@@ -610,6 +655,9 @@ $(document).ready(function(){
 			return;
 		} else if(msgType == WHITE_BOARD_CLEAR_SCREEN){
 			clearRect();
+			return;
+		} else if(msgType == ROOM_AUDIO_LIST){
+			getAudioList()
 			return;
 		}
 		

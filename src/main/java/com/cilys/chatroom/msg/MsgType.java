@@ -28,4 +28,6 @@ public interface MsgType {
 
     int WHITE_BOARD_DRAW = 1301;    //白板绘图，远程同步给其它用户
     int WHITE_BOARD_CLEAR_SCREEN = 1302;    //白板绘图，清屏，远程同步给其它用户
+
+    int ROOM_AUDIO_LIST = 1310;     //通知获取音频列表
 }

@@ -84,7 +84,7 @@ public class BaseController extends Controller {
 //        getResponse().setHeader("Access-Control-Allow-Origin", "*");
 //        getResponse().setHeader("Access-Control-Allow-Headers", "Content-Type,Access-Token");
         getResponse().setHeader("Access-Control-Allow-Origin", "*");
-        getResponse().setHeader("Access-Control-Allow-Headers", "osType, userId, token, Content-Type, Accept");
+        getResponse().setHeader("Access-Control-Allow-Headers", "osType, userId, token, roomNumber, Content-Type, Accept");
         super.renderJson(object);
     }
 
